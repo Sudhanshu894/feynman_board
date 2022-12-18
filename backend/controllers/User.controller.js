@@ -8,7 +8,7 @@ const ErrorHandler = require('../middlewares/Errors');
 exports.RegisterAndLoginUser = AsyncErrorHandler(async (req, res, next) => {
     const { username } = req.body;
 
-    const user = await User.findOne({ name: username });
+    let user = await User.findOne({ name: username });
 
     //user present then login
     if (user) {
@@ -17,10 +17,10 @@ exports.RegisterAndLoginUser = AsyncErrorHandler(async (req, res, next) => {
     }
 
     // if user not exist then create and then login
-    const cruser = await User.create({
+    user = await User.create({
         name: username,
     });
-    return sendToken(user = cruser, 201, res);
+    return sendToken(user, 201, res);
 });
 
 // logout User module
